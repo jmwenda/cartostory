@@ -15,8 +15,22 @@
     <div class="togglemenu">
       <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Sidebar >></a>
     </div>
+
     {{map}}
-    <div id="map" class="map"></div>
+    <div id="map" class="map">
+      <div id="slides">
+        <div id="introslide">
+          <a>Edit</a>
+          <h2>Add title here</h2>
+            <p>This is where you add content for your slide</p>
+        </div>
+        {{slides}}
+        <div id="exitslide">
+          <h2>Call to Action</h2>
+             <p>Add content for call to action</p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 </template>
