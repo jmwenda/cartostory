@@ -19,16 +19,16 @@
     {{map}}
     <div id="map" class="map">
       <div id="slides">
-        <div id="introslide">
-          <a>Edit</a>
-          <h2>Add title here</h2>
-            <p>This is where you add content for your slide</p>
-        </div>
-        {{slides}}
-        <div id="exitslide">
-          <h2>Call to Action</h2>
-             <p>Add content for call to action</p>
-        </div>
+        {{#each posts}}
+    <div class="introslide">
+      <h2 class="editable-text-trigger">
+        {{> editableText options=postOptions}}
+      </h2>
+      <div class="editable-text-trigger">
+            {{> editableText collection="posts" field="body" wysiwyg=true acceptEmpty=true substitute='<i class="fa fa-pencil"></i>' class="post-body" inputClass="post-body-wysiwyg"}}
+          </div>
+    </div>
+  {{/each}}
       </div>
     </div>
   </div>
