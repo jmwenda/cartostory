@@ -20,15 +20,20 @@
     <div id="map" class="map">
       <div id="slides">
         {{#each posts}}
-    <div class="introslide">
+
       <h2 class="editable-text-trigger">
         {{> editableText options=postOptions}}
       </h2>
       <div class="editable-text-trigger">
             {{> editableText collection="posts" field="body" wysiwyg=true acceptEmpty=true substitute='<i class="fa fa-pencil"></i>' class="post-body" inputClass="post-body-wysiwyg"}}
           </div>
-    </div>
+
   {{/each}}
+  {{#with body=""}}
+    <span class="btn btn-default editable-text-trigger">
+      <i class="fa fa-plus"></i> New Slide{{> editableText context=newCommentDoc collection="posts" field="title" autoInsert=true}}
+    </span>
+  {{/with}}
       </div>
     </div>
   </div>

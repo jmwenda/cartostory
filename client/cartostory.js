@@ -1,5 +1,7 @@
-Posts = new Mongo.Collection('posts');
+Meteor.subscribe('posts');
+/*Posts = new Mongo.Collection('posts');
 Comments = new Mongo.Collection('comments');
+Docs = new Mongo.Collection('docs');
 
 Meteor.subscribe('posts');
 Schemas = {};
@@ -77,7 +79,7 @@ Schemas.User = new SimpleSchema({
 
 Posts.attachSchema(Schemas.Post);
 Comments.attachSchema(Schemas.Comment);
-Meteor.users.attachSchema(Schemas.User);
+Meteor.users.attachSchema(Schemas.User);*/
 //We stoped here
 Template.private.events({
     'click #menu-toggle': function (evt) {
@@ -85,7 +87,12 @@ Template.private.events({
         console.log("buttion has been clicked");
         $("#wrapper").toggleClass("toggled");
         console.log("we should see some change");
-  }
+  },
+  'click #plusbutton': function (evt) {
+      evt.preventDefault();
+      console.log("button has been clicked");
+
+}
 });
 Template.private.rendered = function() {
   var currentUserId = Meteor.userId();
@@ -95,7 +102,7 @@ Template.private.rendered = function() {
         doubleClickZoom: false
       }).setView([49.25044, -123.137], 13);
       L.tileLayer.provider('Stamen.Watercolor').addTo(map);
-      Posts.insert({_id:"abc123",timestamp:Date.now(),title:"Editable post title - delete this title to remove the post",body:'This is the body of the post, written with the <strong>wysiwyg editor</strong>.  It is editable because we wrote {{&gt; editableText collection="posts" field="body" wysiwyg=true}} in the template instead of {{body}}.<br /><br />This demo app was written with meteor packages (<a href="https://github.com/aldeed/meteor-collection2" target="_blank">aldeed:collection2</a>, <a href="https://github.com/JackAdams/meteor-transactions" target="_blank">babrahams:transactions</a>, <a href="https://github.com/ianmartorell/meteor-accounts-ui-bootstrap-3" target="_blank">ian:accounts-ui-bootstrap-3</a>, <a href="https://github.com/meteorhacks/fast-render/" target="_blank">meteorhacks:fast-render</a>, <a href="https://github.com/JackAdams/meteor-editable-text-wysiwyg-bootstrap-3" target="_blank">babrahams:editable-text-wysiwyg-bootstrap-3</a>, <a href="https://github.com/JackAdams/meteor-editable-list" target="_blank">babrahams:editable-list</a>) and 222 lines of code (<a href="https://github.com/JackAdams/editable-text-demo/blob/master/editable-text-demo.html" target="_blank">html: 46 loc</a>, <a href="https://github.com/JackAdams/editable-text-demo/blob/master/editable-text-demo.js" target="_blank">js: 122 loc</a>, <a href="https://github.com/JackAdams/editable-text-demo/blob/master/editable-text-demo.css" target="_blank">css: 54 loc</a>). It demonstrates some of the uses of the <a href="https://github.com/JackAdams/meteor-editable-text">babrahams:editable-text</a> package.<br /><br />See the source at <a href="https://github.com/JackAdams/editable-text-demo">https://github.com/JackAdams/editable-text-demo.</a>',tags:['Drag to reorder','Click to edit']});
+      /*Posts.insert({_id:"abc123",timestamp:Date.now(),title:"Editable post title - delete this title to remove the post",body:'This is the body of the post, written with the <strong>wysiwyg editor</strong>.  It is editable because we wrote {{&gt; editableText collection="posts" field="body" wysiwyg=true}} in the template instead of {{body}}.<br /><br />This demo app was written with meteor packages (<a href="https://github.com/aldeed/meteor-collection2" target="_blank">aldeed:collection2</a>, <a href="https://github.com/JackAdams/meteor-transactions" target="_blank">babrahams:transactions</a>, <a href="https://github.com/ianmartorell/meteor-accounts-ui-bootstrap-3" target="_blank">ian:accounts-ui-bootstrap-3</a>, <a href="https://github.com/meteorhacks/fast-render/" target="_blank">meteorhacks:fast-render</a>, <a href="https://github.com/JackAdams/meteor-editable-text-wysiwyg-bootstrap-3" target="_blank">babrahams:editable-text-wysiwyg-bootstrap-3</a>, <a href="https://github.com/JackAdams/meteor-editable-list" target="_blank">babrahams:editable-list</a>) and 222 lines of code (<a href="https://github.com/JackAdams/editable-text-demo/blob/master/editable-text-demo.html" target="_blank">html: 46 loc</a>, <a href="https://github.com/JackAdams/editable-text-demo/blob/master/editable-text-demo.js" target="_blank">js: 122 loc</a>, <a href="https://github.com/JackAdams/editable-text-demo/blob/master/editable-text-demo.css" target="_blank">css: 54 loc</a>). It demonstrates some of the uses of the <a href="https://github.com/JackAdams/meteor-editable-text">babrahams:editable-text</a> package.<br /><br />See the source at <a href="https://github.com/JackAdams/editable-text-demo">https://github.com/JackAdams/editable-text-demo.</a>',tags:['Drag to reorder','Click to edit']});*/
 
     }
 }
@@ -118,6 +125,7 @@ EditableText.registerCallbacks({
 tx.requireUser = false; // Means a user who is not logged in gets to undo/redo
 
 if (Meteor.isClient) {
+  Meteor.subscribe("Posts");
 
   Tracker.autorun(function() {
 	EditableText.useTransactions = (Meteor.user()) ? true : false;
@@ -127,7 +135,10 @@ if (Meteor.isClient) {
 
   Template.private.helpers({
     posts: function() {
-      return Posts.find({},{sort:{timestamp:-1}});
+      return Posts.find();
+    },
+    docs: function() {
+      return Docs.find();
     },
 	comments: function() {
 	  return Comments.find({post_id:this._id},{sort:{timestamp:1}});
@@ -154,8 +165,11 @@ if (Meteor.isClient) {
 
 }
 
-/*if (Meteor.isServer) {
-  var destroy = function() {
+if (Meteor.isServer) {
+  Meteor.publish("posts", function () {
+  return Posts.find();
+});
+  /*var destroy = function() {
 	Posts.remove({});
 	Comments.remove({});
 	tx.Transactions.remove({});
@@ -167,5 +181,5 @@ if (Meteor.isClient) {
 	  destroy();
     },15 * 60 * 1000);
   }
-  destroy();
-}*/
+  destroy();*/
+}
