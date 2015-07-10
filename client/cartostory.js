@@ -81,6 +81,7 @@ Posts.attachSchema(Schemas.Post);
 Comments.attachSchema(Schemas.Comment);
 Meteor.users.attachSchema(Schemas.User);*/
 //We stoped here
+
 Template.private.events({
     'click #menu-toggle': function (evt) {
         evt.preventDefault();
@@ -88,7 +89,6 @@ Template.private.events({
         $("#wrapper").toggleClass("toggled");
         console.log("we should see some change");
   },
-
 });
 Template.private.rendered = function() {
   var currentUserId = Meteor.userId();
@@ -105,8 +105,10 @@ Template.private.rendered = function() {
 }
 
 //we started here again
+EditableText.config({saveOnFocusout:false,trustHtml:true});
 EditableText.useTransactions = true;
 EditableText.maximumImageSize = 200000;
+/*
 
 EditableText.registerCallbacks({
   addTimestampToDoc : function(doc) {
@@ -120,7 +122,7 @@ EditableText.registerCallbacks({
 
 // Config for transactions
 tx.requireUser = false; // Means a user who is not logged in gets to undo/redo
-
+*/
 if (Meteor.isClient) {
   Meteor.subscribe("Posts");
 
@@ -153,6 +155,7 @@ if (Meteor.isClient) {
 		field:"title",
 		removeEmpty:true,
 		acceptEmpty:true,
+    wysiwyg: true,
 		placeholder:"Post title",
 		substitute:'<i class="fa fa-pencil"></i>'
 	  }
