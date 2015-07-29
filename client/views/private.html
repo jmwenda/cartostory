@@ -25,7 +25,7 @@
         {{> editableText options=postOptions}}
       </h2>
       <div class="editable-text-trigger">
-            {{> editableText collection="posts" field="body" wysiwyg=true acceptEmpty=true substitute='<i class="fa fa-pencil"></i>' class="post-body" inputClass="post-body-wysiwyg" beforeUpdate="addTimestampToDoc"}}
+            {{> editableText context=singlePostDocument collection="posts" field="body" wysiwyg=true trustHtml=true acceptEmpty=true substitute='<i class="fa fa-pencil"></i>' class="post-body" inputClass="post-body-wysiwyg" beforeUpdate="uploadImageToslide"}}
           </div>
 
   {{/each}}
